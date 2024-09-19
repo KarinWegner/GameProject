@@ -15,13 +15,44 @@ internal class Game
 
     private void Play()
     {
-        throw new NotImplementedException();
+        bool gameInProgress = true;
+        do
+        {
+
+       
+        //DrawMap
+        DrawMap();
+            //GetComman
+            //Act
+            //DrawMap
+            //EnemyAction
+            //DrawMap
+            Console.ReadKey();
+        }
+        while (gameInProgress);
+    }
+
+    private void DrawMap()
+    {
+        Console.Clear();
+        for (int y = 0; y < map.Height; y++)
+        {
+            for (int x = 0; x < map.Width; x++)
+            {
+                Cell cell = map.GetCell(y, x);
+                Console.ForegroundColor = cell.Color;
+                Console.Write(cell.Symbol);
+            }
+            Console.WriteLine();
+        }
+        Console.ForegroundColor = ConsoleColor.Gray;
     }
 
     private void Initialize()
     {
         //ToDo: Read from config maybe
         map = new Map(width: 10, height: 10);
-        hero = new Hero();
+        Cell heroCell = map.GetCell(0, 0);
+        hero = new Hero(heroCell);
     }
 }
