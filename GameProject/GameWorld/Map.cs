@@ -7,7 +7,7 @@ internal class Map
     public int Width { get; }
     public int Height { get; }
 
-    public List<Creature> Creatures{get;}
+    public List<Creature> Creatures{get;} = new List<Creature>();
 
     public Map(int width, int height)
     {
@@ -19,7 +19,7 @@ internal class Map
         {
             for (int x = 0; x < width; x++)
             {
-                cells[x, y] = new Cell();
+                cells[y,x] = new Cell(new Position(y,x));
             }
 
         }
@@ -29,5 +29,9 @@ internal class Map
     internal Cell? GetCell(int y, int x)
     {
         return (x < 0 || x >= Width || y < 0 || y >= Height) ? null : cells[y, x];
+    }
+    internal Cell? GetCell(Position newPosition)
+    {
+        return GetCell(newPosition.Y, newPosition.X);
     }
 }

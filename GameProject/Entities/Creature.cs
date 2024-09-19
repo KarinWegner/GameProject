@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace GameProject.Entities
 {
-    internal class Creature
+    internal class Creature : IDrawable
     {
-        public Cell Cell { get; }
+        private Cell cell;
+        public Cell Cell
+        {
+            get => cell;
+            set
+            {
+                ArgumentNullException.ThrowIfNull(value, nameof(cell));
+                cell = value;
+            }
+        }
         public string Symbol { get; }
 
         public ConsoleColor Color { get; protected set; } = ConsoleColor.Green;
