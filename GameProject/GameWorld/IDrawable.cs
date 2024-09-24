@@ -1,7 +1,10 @@
 ﻿
-internal interface IDrawable
+namespace GameProject.GameWorld
 {
-   
-    ConsoleColor Color { get; }
-    string Symbol { get; }
+    internal interface IDrawable
+    {
+
+        ConsoleColor Color { get; }
+        string Symbol { get; }
+    }
 }

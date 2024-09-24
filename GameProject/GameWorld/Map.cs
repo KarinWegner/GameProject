@@ -1,37 +1,39 @@
 ﻿
 using System.Diagnostics;
-
-internal class Map
+namespace GameProject.GameWorld
 {
-    private Cell[,] cells;
-    public int Width { get; }
-    public int Height { get; }
-
-    public List<Creature> Creatures{get;} = new List<Creature>();
-
-    public Map(int width, int height)
+    internal class Map
     {
-        Width = width;
-        Height = height;
+        private Cell[,] cells;
+        public int Width { get; }
+        public int Height { get; }
 
-        cells = new Cell[width, height];
-        for (int y = 0; y < height; y++)
+        public List<Creature> Creatures { get; } = new List<Creature>();
+
+        public Map(int width, int height)
         {
-            for (int x = 0; x < width; x++)
+            Width = width;
+            Height = height;
+
+            cells = new Cell[width, height];
+            for (int y = 0; y < height; y++)
             {
-                cells[y,x] = new Cell(new Position(y,x));
+                for (int x = 0; x < width; x++)
+                {
+                    cells[y, x] = new Cell(new Position(y, x));
+                }
+
             }
-
         }
-    }
 
-    //ToDo: Do better
-    internal Cell? GetCell(int y, int x)
-    {
-        return (x < 0 || x >= Width || y < 0 || y >= Height) ? null : cells[y, x];
-    }
-    internal Cell? GetCell(Position newPosition)
-    {
-        return GetCell(newPosition.Y, newPosition.X);
+        //ToDo: Do better
+        internal Cell? GetCell(int y, int x)
+        {
+            return (x < 0 || x >= Width || y < 0 || y >= Height) ? null : cells[y, x];
+        }
+        internal Cell? GetCell(Position newPosition)
+        {
+            return GetCell(newPosition.Y, newPosition.X);
+        }
     }
 }

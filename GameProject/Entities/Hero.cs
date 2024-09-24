@@ -1,14 +1,15 @@
-﻿using GameProject.Entities;
-
-internal class Hero : Creature
+﻿namespace GameProject.Entities
 {
-    private LimitedList<Item> Backpack;
-
-    public LimitedList<Item> BackPack { get; }
-    public Hero(Cell cell) : base(cell, "H")
+    internal class Hero : Creature
     {
+        private LimitedList<Item> Backpack;
 
-        Color = ConsoleColor.White;
-        Backpack = new LimitedList<Item>(3);
+        public LimitedList<Item> BackPack { get; }
+        public Hero(Cell cell) : base(cell, "H")
+        {
+
+            Color = ConsoleColor.White;
+            Backpack = new LimitedList<Item>(3);
+        }
     }
 }
