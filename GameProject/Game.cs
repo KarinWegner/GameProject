@@ -54,6 +54,24 @@ internal class Game
         }
     }
 
+    private void Pickup()
+    {
+        if (hero.BackPack.IsFull)
+        {
+            Console.WriteLine("Backpack is full");
+            return;
+        }
+        List<Item> items = hero.Cell.Items;
+        Item? item = hero.Cell.Items.FirstOrDefault();
+
+        if (item is null) return;
+
+        if (hero.BackPack.Add(item))
+        {
+            Console.WriteLine($"Hero picked up {item}");
+            items.Remove(item);
+        }
+    }
     private void Move(Position movement )
     {
         Position newPosition = hero.Cell.Position + movement;
@@ -67,35 +85,9 @@ internal class Game
 
     private void DrawMap()
     {
-        Console.Clear();
-        for (int y = 0; y < map.Height; y++)
-        {
-            for (int x = 0; x < map.Width; x++)
-            {
-                //Cell cell = map.GetCell(y, x);
-                //Console.ForegroundColor = cell.Color;
-                //Console.Write(cell.Symbol);
-
-                IDrawable drawable = map.GetCell(y, x);
-                ArgumentNullException.ThrowIfNull(drawable, nameof(drawable));
-                //foreach (var creature in map.Creatures)
-                //{
-                //    if(creature.Cell == drawable)
-                //    {
-                //        drawable = creature;
-                //        break;
-                //    }
-                //}
-
-                drawable = map.Creatures.CreatureAtExtention(drawable);
-
-                Console.ForegroundColor = drawable.Color;
-                Console.Write(drawable.Symbol);
-
-            }
-            Console.WriteLine();
-        }
-        Console.ForegroundColor = ConsoleColor.Gray;
+        ConsoleUI.Clear();
+        ConsoleUI.Draw(map);
+   
     }
 
     private void Initialize()
@@ -105,5 +97,10 @@ internal class Game
         Cell heroCell = map.GetCell(0, 0);
         hero = new Hero(heroCell);
         map.Creatures.Add(hero);
+
+        map.GetCell(2, 4)?.Items.Add(Item.Coin());
+        map.GetCell(5, 8)?.Items.Add(Item.Stone());
+        map.GetCell(1, 2)?.Items.Add(Item.Stone());
+        map.GetCell(7, 2)?.Items.Add(Item.Coin());
     }
 }

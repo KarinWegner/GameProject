@@ -6,6 +6,15 @@
     //public int X { get; }
 
     public Position Position { get; set; }
+
+    public List<Item> Items
+    {
+        get
+        {
+            return new List<Item>();
+        }
+    }
+
     public Cell(Position position)
     {
         Color = ConsoleColor.Red;
