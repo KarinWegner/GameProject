@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace GameProject.UI
 {
     internal class ConsoleUI
@@ -23,7 +24,7 @@ namespace GameProject.UI
                 {
                     Cell? cell = map.GetCell( y, x);
 
-                    IDrawable drawable = cell;
+                    IDrawable? drawable = cell;
                     ArgumentNullException.ThrowIfNull(drawable, nameof(drawable));
 
 

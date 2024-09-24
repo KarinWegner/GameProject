@@ -7,13 +7,13 @@
 
     public Position Position { get; set; }
 
-    public List<Item> Items
-    {
-        get
-        {
-            return new List<Item>();
-        }
-    }
+    public List<Item> Items { get; } = new List<Item>();
+    //{
+    //    get
+    //    {
+    //        return new List<Item>();
+    //    }
+    //}
 
     public Cell(Position position)
     {
