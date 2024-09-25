@@ -11,7 +11,7 @@ namespace GameProject.LimitedList
     {
         private readonly int capacity;
         protected List<T> list;
-        private bool isFull;
+        //private bool isFull;
 
         public int Count => list.Count;
 
@@ -34,7 +34,7 @@ namespace GameProject.LimitedList
         public virtual bool Add(T item)
         {
             ArgumentNullException.ThrowIfNull(item, nameof(item));
-            if (isFull) return false;
+            if (IsFull) return false;
             list.Add(item); return true;
         }
         public void Print(Action<T> action)
