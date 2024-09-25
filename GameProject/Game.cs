@@ -51,14 +51,29 @@ internal class Game
             case ConsoleKey.DownArrow:
                 Move(Direction.South) ;
                 break;
+            case ConsoleKey.P:
+                PickUp();
+                break;
+            case ConsoleKey.I:
+                Inventory();
+                break;
+
         }
     }
 
-    private void Pickup()
+    private void Inventory()
+    {
+        for (int i = 0; i < hero.BackPack.Count; i++)
+        {
+            ConsoleUI.AddMessage($"{i + 1}: {hero.BackPack[i]}");
+        }
+    }
+
+    private void PickUp()
     {
         if (hero.BackPack.IsFull)
         {
-            Console.WriteLine("Backpack is full");
+            ConsoleUI.AddMessage("Backpack is full");
             return;
         }
         List<Item> items = hero.Cell.Items;
@@ -68,7 +83,7 @@ internal class Game
 
         if (hero.BackPack.Add(item))
         {
-            Console.WriteLine($"Hero picked up {item}");
+            ConsoleUI.AddMessage($"Hero picked up {item}");
             items.Remove(item);
         }
     }
@@ -87,6 +102,8 @@ internal class Game
     {
         ConsoleUI.Clear();
         ConsoleUI.Draw(map);
+        ConsoleUI.PrintStats($"Health: {hero.Health}");
+        ConsoleUI.PrintLog();
    
     }
 

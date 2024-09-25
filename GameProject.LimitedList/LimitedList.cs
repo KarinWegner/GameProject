@@ -17,6 +17,14 @@ namespace GameProject.LimitedList
 
         public bool IsFull => capacity <= Count;
 
+        public T this[int index]// => list[index];
+        {
+            get
+            {
+                return list[index];
+            }
+        }
+
         public LimitedList(int capacity)
         {
             this.capacity = Math.Max(capacity, 2);
@@ -28,6 +36,12 @@ namespace GameProject.LimitedList
             ArgumentNullException.ThrowIfNull(item, nameof(item));
             if (isFull) return false;
             list.Add(item); return true;
+        }
+        public void Print(Action<T> action)
+        {
+            list.ForEach(action);
+            //list.ForEach(x => action(x));
+            //list.ForEach(x => action.Invoke(x));
         }
         public IEnumerator<T> GetEnumerator()
         {

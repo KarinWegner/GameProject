@@ -10,31 +10,34 @@ namespace GameProject.Extentions
     {
         public static IDrawable CreatureAtExtention(this List<Creature> creatures, IDrawable drawable)
         {
-            IDrawable result = drawable;
+            //IDrawable result = drawable;
 
-            foreach (var creature in creatures)
-            {
-                if (creature.Cell == drawable)
-                {
-                    result = creature;
-                    break;
-                }
-            }
-            return result;
+            //foreach (var creature in creatures)
+            //{
+            //    if (creature.Cell == drawable)
+            //    {
+            //        result = creature;
+            //        break;
+            //    }
+            ////}
+            //return result;
+
+            return creatures.FirstOrDefault(d => d.Cell == drawable) ?? drawable as IDrawable;
         }
         public static IDrawable CreatureAtExtention2(this List<Creature> creatures, Cell drawable)
         {
-            IDrawable result = null;
+            //IDrawable result = null;
 
-            foreach (var creature in creatures)
-            {
-                if (creature.Cell == drawable)
-                {
-                    result = creature;
-                    break;
-                }
-            }
-            return result;
+            //foreach (var creature in creatures)
+            //{
+            //    if (creature.Cell == drawable)
+            //    {
+            //        result = creature;
+            //        break;
+            //    }
+            //}
+            //return result;
+            return creatures.FirstOrDefault(d => d.Cell == drawable);
         }
     }
 }

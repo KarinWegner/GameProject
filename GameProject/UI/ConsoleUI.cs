@@ -9,6 +9,16 @@ namespace GameProject.UI
 {
     internal class ConsoleUI
     {
+        private static MessageLog<string> messageLog = new(6);
+
+        internal static void AddMessage(string message) => messageLog.Add(message);
+        //{
+        //    messageLog.Add(message);
+        //}
+        internal static void PrintLog()
+        {
+            messageLog.Print(m =>Console.WriteLine(m));
+        }
         internal static ConsoleKey GetKey() => Console.ReadKey(intercept: true).Key; //intercept hindrar knapptrycket från att skrivas ut i konsollen
         internal static void Clear()
         {
@@ -39,6 +49,13 @@ namespace GameProject.UI
                 }
                 Console.WriteLine();
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        internal static void PrintStats(string stats)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(stats);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
