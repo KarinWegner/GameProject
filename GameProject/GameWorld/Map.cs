@@ -41,5 +41,10 @@ namespace GameProject.GameWorld
             if (Creatures.FirstOrDefault(c => c.Cell == creature.Cell) == null)
                    Creatures.Add(creature);
         }
+
+        internal Creature? CreatureAt(Cell cell)
+        {
+            return Creatures.FirstOrDefault(c => c.Cell == cell);
+        }
     }
 }

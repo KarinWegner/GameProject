@@ -52,6 +52,8 @@ namespace GameProject.LimitedList
             }
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public bool Remove(T item) => list.Remove(item);
     }
 }
 

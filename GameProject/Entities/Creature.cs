@@ -10,6 +10,9 @@ namespace GameProject.Entities
     {
         private Cell cell;
         private int health;
+        private ConsoleColor color;
+
+        public string Name => GetType().Name;
         public Cell Cell
         {
             get => cell;
@@ -31,7 +34,12 @@ namespace GameProject.Entities
         public bool IsDead => health <= 0;
 
         public int Damage { get; protected set; } = 50;
-        public ConsoleColor Color { get; protected set; } = ConsoleColor.Green;
+        public ConsoleColor Color
+        {
+            get => IsDead ? ConsoleColor.Gray : color;
+            protected set => color = value;
+        }
+        public Action<string> AddToLog { get; set; } = default!;
 
         public Creature(Cell cell, string symbol, int maxHealth)
         {
@@ -39,6 +47,22 @@ namespace GameProject.Entities
             Symbol = symbol;
             MaxHealth = maxHealth;
             Health = maxHealth;
+            color = ConsoleColor.Green;
+        }
+
+        public void Attack(Creature target)
+        {
+            if(target.IsDead || this.IsDead) return;
+
+            var attacker = Name;
+            //var attacker = this.Name
+
+            target.health -= Damage;
+
+            AddToLog?.Invoke($"The{attacker} attacks the {target.Name} for {this.Damage}");
+
+            if (target.IsDead)
+                AddToLog?.Invoke($"The {target.Name} is dead");
         }
     }
 }

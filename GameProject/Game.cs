@@ -92,6 +92,15 @@ internal class Game
         Position newPosition = hero.Cell.Position + movement;
 
         Cell newCell = map.GetCell(newPosition);
+
+        Creature? opponent = map.CreatureAt(newCell!);
+
+        if(opponent is not null)
+        {
+            hero.Attack(opponent);
+            opponent.Attack(hero);
+        }
+
         if (newCell is not null)
         {
             hero.Cell = newCell;
@@ -101,22 +110,38 @@ internal class Game
         }
 
     }
+    private void Drop()
+    {
+
+        var item = hero.BackPack.FirstOrDefault();
+
+        if (item is not null && hero.BackPack.Remove(item))
+        {
+            hero.Cell.Items.Add(item);
+            ConsoleUI.AddMessage($"Hero dropped the {item}");
+        }
+        else
+        {
+            ConsoleUI.AddMessage("BackPack is empty");
+        }
+    }
 
     private void DrawMap()
     {
         ConsoleUI.Clear();
         ConsoleUI.Draw(map);
-        ConsoleUI.PrintStats($"Health: {hero.Health}");
+        ConsoleUI.PrintStats($"Hero's Health: {hero.Health}, Enemies: {map.Creatures.Count - 1}");
         ConsoleUI.PrintLog();
 
     }
 
     private void Initialize()
-    { 
+    {
         actionMenu = new Dictionary<ConsoleKey, Action>
         {
            { ConsoleKey.P, PickUp},
-           { ConsoleKey.I, Inventory }
+           { ConsoleKey.I, Inventory },
+            {ConsoleKey.D, Drop }
          };
         var r = new Random();
         //ToDo: Read from config maybe
@@ -125,7 +150,7 @@ internal class Game
         hero = new Hero(heroCell);
         map.Creatures.Add(hero);
 
-        map.GetCell(2,2)!.Items.Add(Item.Coin());
+        map.GetCell(2, 2)!.Items.Add(Item.Coin());
         RCell().Items.Add(Item.Coin());
         map.GetCell(5, 8)?.Items.Add(Item.Stone());
         map.GetCell(1, 2)?.Items.Add(Item.Stone());
@@ -134,6 +159,11 @@ internal class Game
         map.Place(new Orc(RCell()));
         map.Place(new Orc(RCell()));
         map.Place(new Troll(RCell()));
+
+        map.Creatures.ForEach(c =>
+        {
+            c.AddToLog = ConsoleUI.AddMessage;
+        });
 
         Cell RCell()
         {
