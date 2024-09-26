@@ -3,9 +3,11 @@
 using GameProject.Extentions;
 using GameProject.UI;
 using System.Data;
+using System.Runtime.InteropServices;
 
 internal class Game
 {
+    private Dictionary<ConsoleKey, Action> actionMenu;
     private Map map = null!;
     private Hero hero = null!;
 
@@ -21,9 +23,9 @@ internal class Game
         do
         {
 
-       
-        //DrawMap
-        DrawMap();
+
+            //DrawMap
+            DrawMap();
             //GetCommand
             GetCommand();
             //Act
@@ -49,20 +51,18 @@ internal class Game
                 Move(Direction.North);
                 break;
             case ConsoleKey.DownArrow:
-                Move(Direction.South) ;
-                break;
-            case ConsoleKey.P:
-                PickUp();
-                break;
-            case ConsoleKey.I:
-                Inventory();
+                Move(Direction.South);
                 break;
 
+
         }
+        if (actionMenu.ContainsKey(keyPressed))
+            actionMenu[keyPressed]?.Invoke();
     }
 
     private void Inventory()
     {
+        ConsoleUI.AddMessage(hero.BackPack.Count > 0 ? "Inventory:" : "No items");
         for (int i = 0; i < hero.BackPack.Count; i++)
         {
             ConsoleUI.AddMessage($"{i + 1}: {hero.BackPack[i]}");
@@ -87,15 +87,19 @@ internal class Game
             items.Remove(item);
         }
     }
-    private void Move(Position movement )
+    private void Move(Position movement)
     {
         Position newPosition = hero.Cell.Position + movement;
 
         Cell newCell = map.GetCell(newPosition);
-        if (newCell != null) hero.Cell = newCell;
-        //Cell newPosition = map.GetCell(y, x);
-        //if (newPosition != null) 
-        //{ hero.Cell = newPosition; }
+        if (newCell is not null)
+        {
+            hero.Cell = newCell;
+
+            if (newCell.Items.Any())
+                ConsoleUI.AddMessage($"You see {string.Join(",", newCell.Items)}");
+        }
+
     }
 
     private void DrawMap()
@@ -104,20 +108,42 @@ internal class Game
         ConsoleUI.Draw(map);
         ConsoleUI.PrintStats($"Health: {hero.Health}");
         ConsoleUI.PrintLog();
-   
+
     }
 
     private void Initialize()
-    {
+    { 
+        actionMenu = new Dictionary<ConsoleKey, Action>
+        {
+           { ConsoleKey.P, PickUp},
+           { ConsoleKey.I, Inventory }
+         };
+        var r = new Random();
         //ToDo: Read from config maybe
         map = new Map(width: 10, height: 10);
         Cell heroCell = map.GetCell(0, 0);
         hero = new Hero(heroCell);
         map.Creatures.Add(hero);
 
-        map.GetCell(2, 4)?.Items.Add(Item.Coin());
+        map.GetCell(2,2)!.Items.Add(Item.Coin());
+        RCell().Items.Add(Item.Coin());
         map.GetCell(5, 8)?.Items.Add(Item.Stone());
         map.GetCell(1, 2)?.Items.Add(Item.Stone());
         map.GetCell(7, 2)?.Items.Add(Item.Coin());
+
+        map.Place(new Orc(RCell()));
+        map.Place(new Orc(RCell()));
+        map.Place(new Troll(RCell()));
+
+        Cell RCell()
+        {
+            var width = r.Next(0, map.Width);
+            var height = r.Next(0, map.Height);
+
+            var cell = map.GetCell(width, height);
+            ArgumentNullException.ThrowIfNull(cell, nameof(cell));
+
+            return cell;
+        }
     }
 }

@@ -35,5 +35,11 @@ namespace GameProject.GameWorld
         {
             return GetCell(newPosition.Y, newPosition.X);
         }
+
+        internal void Place(Creature creature)
+        {
+            if (Creatures.FirstOrDefault(c => c.Cell == creature.Cell) == null)
+                   Creatures.Add(creature);
+        }
     }
 }

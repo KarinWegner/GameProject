@@ -5,7 +5,7 @@
         //private LimitedList<Item> Backpack;
 
         public LimitedList<Item> BackPack { get; }
-        public Hero(Cell cell) : base(cell, "H ")
+        public Hero(Cell cell) : base(cell, "H ", 100)
         {
 
             Color = ConsoleColor.White;
