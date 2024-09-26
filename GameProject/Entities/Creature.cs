@@ -59,7 +59,7 @@ namespace GameProject.Entities
 
             target.health -= Damage;
 
-            AddToLog?.Invoke($"The{attacker} attacks the {target.Name} for {this.Damage}");
+            AddToLog?.Invoke($"The {attacker} attacks the {target.Name} for {this.Damage}");
 
             if (target.IsDead)
                 AddToLog?.Invoke($"The {target.Name} is dead");

@@ -2,6 +2,7 @@
 
 using GameProject.Extentions;
 using GameProject.UI;
+using System;
 using System.Data;
 using System.Runtime.InteropServices;
 
@@ -10,6 +11,7 @@ internal class Game
     private Dictionary<ConsoleKey, Action> actionMenu;
     private Map map = null!;
     private Hero hero = null!;
+    private bool gameInProgress;
 
     internal void Run()
     {
@@ -19,7 +21,7 @@ internal class Game
 
     private void Play()
     {
-        bool gameInProgress = true;
+        gameInProgress = true;
         do
         {
 
@@ -81,6 +83,14 @@ internal class Game
 
         if (item is null) return;
 
+        if(item is Potion healthPotion)
+        {
+            healthPotion.Use(hero);
+            hero.Cell.Items.Remove(item);
+            ConsoleUI.AddMessage($"Hero used the {item}");
+            return;
+        }
+
         if (hero.BackPack.Add(item))
         {
             ConsoleUI.AddMessage($"Hero picked up {item}");
@@ -100,6 +110,8 @@ internal class Game
             hero.Attack(opponent);
             opponent.Attack(hero);
         }
+
+        gameInProgress = !hero.IsDead;
 
         if (newCell is not null)
         {
@@ -130,7 +142,7 @@ internal class Game
     {
         ConsoleUI.Clear();
         ConsoleUI.Draw(map);
-        ConsoleUI.PrintStats($"Hero's Health: {hero.Health}, Enemies: {map.Creatures.Count - 1}");
+        ConsoleUI.PrintStats($"Hero's Health: {hero.Health},\tEnemies: {map.Creatures.Where(c => !c.IsDead).Count() - 1}");
         ConsoleUI.PrintLog();
 
     }
@@ -155,6 +167,9 @@ internal class Game
         map.GetCell(5, 8)?.Items.Add(Item.Stone());
         map.GetCell(1, 2)?.Items.Add(Item.Stone());
         map.GetCell(7, 2)?.Items.Add(Item.Coin());
+        RCell().Items.Add(Potion.HealthPotion());
+        RCell().Items.Add(Potion.HealthPotion());
+        RCell().Items.Add(Potion.HealthPotion());
 
         map.Place(new Orc(RCell()));
         map.Place(new Orc(RCell()));
