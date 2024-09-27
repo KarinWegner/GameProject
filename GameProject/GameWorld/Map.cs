@@ -2,7 +2,7 @@
 using System.Diagnostics;
 namespace GameProject.GameWorld
 {
-    public class Map
+    public class Map : IMap
     {
         private Cell[,] cells;
         public int Width { get; }
@@ -38,7 +38,7 @@ namespace GameProject.GameWorld
         public void Place(Creature creature)
         {
             if (Creatures.FirstOrDefault(c => c.Cell == creature.Cell) == null)
-                   Creatures.Add(creature);
+                Creatures.Add(creature);
         }
 
         public Creature? CreatureAt(Cell cell)

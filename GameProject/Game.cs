@@ -9,16 +9,17 @@ using System.Runtime.InteropServices;
 internal class Game
 {
     private Dictionary<ConsoleKey, Action> actionMenu = null!;
-    private Map map = null!;
+    private IMap map;
     private Hero hero = null!;
     private bool gameInProgress;
     private readonly IUI ui;
 
     //private ConsoleUI ui = new ConsoleUI();
 
-    public Game(IUI ui)
+    public Game(IUI ui, IMap map)
     {
         this.ui = ui;
+        this.map = map;
     }
     internal void Run()
     {

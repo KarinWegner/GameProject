@@ -5,7 +5,7 @@ namespace GameProject.UI
     {
         void AddMessage(string message);
         void Clear();
-        void Draw(Map map);
+        void Draw(IMap map);
         ConsoleKey GetKey();
         void PrintLog();
         void PrintStats(string stats);
