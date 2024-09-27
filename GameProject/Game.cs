@@ -2,6 +2,7 @@
 
 using GameProject.Extentions;
 using GameProject.UI;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
 using System.Runtime.InteropServices;
@@ -13,13 +14,15 @@ internal class Game
     private Hero hero = null!;
     private bool gameInProgress;
     private readonly IUI ui;
+    private readonly IConfiguration config;
 
     //private ConsoleUI ui = new ConsoleUI();
 
-    public Game(IUI ui, IMap map)
+    public Game(IUI ui, IConfiguration config)
     {
         this.ui = ui;
-        this.map = map;
+        this.config = config;
+        //this.map = map;
     }
     internal void Run()
     {
@@ -163,8 +166,15 @@ internal class Game
            { ConsoleKey.I, Inventory },
             {ConsoleKey.D, Drop }
          };
+
         var r = new Random();
-        //ToDo: Read from config maybe
+
+        var width = config.GetMapSizeFor("x");
+        var height = config.GetMapSizeFor("y");
+
+        map = new Map(height, width);
+
+
       //  map = new Map(width: 10, height: 10);
         Cell heroCell = map.GetCell(0, 0);
         hero = new Hero(heroCell);

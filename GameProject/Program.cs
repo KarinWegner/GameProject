@@ -11,11 +11,11 @@ IConfiguration config = new ConfigurationBuilder()
 //var x = config.GetSection("game:mapsettings:x").Value;
 //var y = config.GetSection("game:mapsettings:y").Value;
 
-var width = config.GetMapSizeFor("x");
-var height = config.GetMapSizeFor("y");
+//var width = config.GetMapSizeFor("x");
+//var height = config.GetMapSizeFor("y");
 
-var map = new Map(height, width);
-var game = new Game(new ConsoleUI(), map );
+//var map = new Map(height, width);
+var game = new Game(new ConsoleUI(), config );
 game.Run();
 
 Console.WriteLine("Game over");
