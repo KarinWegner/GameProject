@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameProject.UI
 {
-    public class ConsoleUI
+    public class ConsoleUI : IUI
     {
         private static MessageLog<string> messageLog = new(6);
 
@@ -17,14 +17,14 @@ namespace GameProject.UI
         //}
         public void PrintLog()
         {
-            messageLog.Print(m =>Console.WriteLine(m));
+            messageLog.Print(m => Console.WriteLine(m));
         }
-        internal static ConsoleKey GetKey() => Console.ReadKey(intercept: true).Key; //intercept hindrar knapptrycket från att skrivas ut i konsollen
+        public ConsoleKey GetKey() => Console.ReadKey(intercept: true).Key; //intercept hindrar knapptrycket från att skrivas ut i konsollen
         public void Clear()
         {
 
             Console.CursorVisible = false;
-            Console.SetCursorPosition(0,0);
+            Console.SetCursorPosition(0, 0);
         }
         public void Draw(Map map)
         {
@@ -32,7 +32,7 @@ namespace GameProject.UI
             {
                 for (int x = 0; x < map.Width; x++)
                 {
-                    Cell? cell = map.GetCell( y, x);
+                    Cell? cell = map.GetCell(y, x);
 
                     IDrawable? drawable = cell;
                     ArgumentNullException.ThrowIfNull(drawable, nameof(drawable));
