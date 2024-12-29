@@ -9,8 +9,14 @@ namespace GameProject.UI
 {
     public class ConsoleUI : IUI
     {
-        private static MessageLog<string> messageLog = new(6);
+        private ILimitedList<string> messageLog;
+        private readonly IMap map;
 
+        public ConsoleUI(IMap map, ILimitedList<string> messageLog)
+        {
+            this.map = map; 
+            this.messageLog = messageLog;
+        }
         public void AddMessage(string message) => messageLog.Add(message);
         //{
         //    messageLog.Add(message);
@@ -26,7 +32,7 @@ namespace GameProject.UI
             Console.CursorVisible = false;
             Console.SetCursorPosition(0, 0);
         }
-        public void Draw(IMap map)
+        public void Draw()
         {
             for (int y = 0; y < map.Height; y++)
             {

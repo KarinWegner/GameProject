@@ -1,5 +1,6 @@
 ﻿
 
+using GameProject.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,10 +19,16 @@ var host = Host.CreateDefaultBuilder(args)
                 {
                     services.AddSingleton<IConfiguration>(config);
                     services.AddSingleton<IUI, ConsoleUI>();
+                    services.AddSingleton<IMap, Map>();
                     services.AddSingleton<Game>();
+                    services.AddSingleton<ILimitedList<string>>(new MessageLog<string>(6));
+                    services.AddSingleton<IMapSettings>(config.GetSection("game:mapsettings").Get<MapSettings>()!);
+                    services.Configure<MapSettings>(config.GetSection("game:mapsettings").Bind);
+                    services.AddSingleton<IMapService, MapService>();
                 })
                 .UseConsoleLifetime()
                 .Build();
+
 host.Services.GetRequiredService<Game>().Run();
 
 //var game = new Game(new ConsoleUI(), config );

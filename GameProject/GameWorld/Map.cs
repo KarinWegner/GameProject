@@ -1,4 +1,6 @@
-﻿
+﻿using GameProject.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 namespace GameProject.GameWorld
 {
@@ -10,15 +12,24 @@ namespace GameProject.GameWorld
 
         public List<Creature> Creatures { get; } = new List<Creature>();
 
-        public Map(int width, int height)
+        public Map(IConfiguration config, IMapSettings mapSettings, IOptions<MapSettings> options, IMapService mapService)
         {
+            //var width = config.GetMapSizeFor("x");
+            //var height = config.GetMapSizeFor("y");
+
+            //var width = options.Value.X;
+            //var height = options.Value.Y;
+
+            var (width, height) = mapService.GetMap();
+
             Width = width;
             Height = height;
 
-            cells = new Cell[height, width];
-            for (int y = 0; y < height; y++)
+            cells = new Cell[Height, Width];
+
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < Width; x++)
                 {
                     cells[y, x] = new Cell(new Position(y, x));
                 }
