@@ -23,7 +23,7 @@ namespace GameProject.UI
         //}
         public void PrintLog()
         {
-            messageLog.Print(m => Console.WriteLine(m));
+            messageLog.Print(m => Console.WriteLine(m + new string(' ', Console.WindowWidth - m.Length)));
         }
         public ConsoleKey GetKey() => Console.ReadKey(intercept: true).Key; //intercept hindrar knapptrycket från att skrivas ut i konsollen
         public void Clear()
