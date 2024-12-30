@@ -49,12 +49,29 @@ namespace GameProject.Extentions
 
     }
 
+    public static class ConfigExtension3
+    {
+        public static Func<IConfiguration, string, int> Implementation { private get; set; } =
+            (config, value) =>
+            {
+                var section = config.GetSection("game:mapsettings");
+
+                return int.TryParse(section[value], out int result) ? result : 0;
+            };
+        public static int GetMapSizeFor3(this IConfiguration config, string value)
+        {
+            return Implementation(config, value);
+        }
+    }
+
     public static class ConfigExtension2
     {
         public static IGetMapSize Implementation { private get; set; } = new GetMapSize();
         public static int GetMapSizeFor2(this IConfiguration config, string value)
         {
-            return Implementation.GetMapSizeFor2(config, value);
+            var section = config.GetSection("game:mapsettings");
+
+            return int.TryParse(section[value], out int result) ? result : 0;
         }
     }
 

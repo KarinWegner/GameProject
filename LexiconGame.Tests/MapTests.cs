@@ -1,0 +1,72 @@
+using GameProject.Extentions;
+using GameProject.GameWorld;
+using GameProject.Services;
+using Microsoft.Extensions.Configuration;
+using Moq;
+
+namespace LexiconGame.Tests
+{
+    public class MapTests
+    {
+        //[Fact]
+        //public void Constructor_SetCorrectWidth_WithExtension2()
+        //{
+        //    //Arrange
+        //    const int expectedWidth = 10;
+
+
+        //    var iconfigMock = new Mock<IConfiguration>();
+        //    var getMapSizeMock = new Mock<IGetMapSize>();
+
+        //    getMapSizeMock.Setup(x => x.GetMapSizeFor2(iconfigMock.Object, It.IsAny<string>())).Returns(expectedWidth);
+        //    ConfigExtension2.Implementation = getMapSizeMock.Object;
+
+        //    //Act
+
+        //    var map = new Map(iconfigMock.Object);
+
+        //    //Assert
+
+        //    Assert.Equal(expectedWidth, map.Width);
+        //}
+        //[Fact]
+        //public void Constructor_SetCorrectWidth_WithExtension3()
+        //{
+        //    //Arrange
+        //    const int expectedWidth = 10;
+
+
+        //    var iconfigMock = new Mock<IConfiguration>();
+
+        //    ConfigExtension3.Implementation = (iconfig, value) => expectedWidth;
+
+        //    //Act
+
+        //    var map = new Map(iconfigMock.Object);
+
+        //    //Assert
+
+        //    Assert.Equal(expectedWidth, map.Width);
+        //}
+
+        [Fact]
+        public void Constructor_SetCorrectWidth_WithExtension3()
+        {
+            //Arrange
+            const int expectedWidthAndHeight = 10;
+
+
+            var serviceMock = new Mock<IMapService>();
+            serviceMock.Setup(x => x.GetMap()).Returns((expectedWidthAndHeight, expectedWidthAndHeight));
+
+
+            //Act
+
+            var map = new Map(serviceMock.Object);
+
+            //Assert
+
+            Assert.Equal(expectedWidthAndHeight, map.Width);
+        }
+    }
+}

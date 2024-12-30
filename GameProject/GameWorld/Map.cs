@@ -12,16 +12,20 @@ namespace GameProject.GameWorld
 
         public List<Creature> Creatures { get; } = new List<Creature>();
 
-       // public Map(IConfiguration config, IMapSettings mapSettings, IOptions<MapSettings> options, IMapService mapService)
-        public Map(IConfiguration config)
+        public Map(IMapService mapService)
         {
-            var width = config.GetMapSizeFor2("x");
-            var height = config.GetMapSizeFor2("y");
+            //public Map(IConfiguration config, IMapSettings mapSettings, IOptions<MapSettings> options, IMapService mapService)
+            //public Map(IConfiguration config)
+            //{
+            //    var width = config.GetMapSizeFor3("x");
+            //    var height = config.GetMapSizeFor3("y");
 
             //var width = options.Value.X;
             //var height = options.Value.Y;
 
-            //var (width, height) = mapService.GetMap();
+            var (width, height) = mapService.GetMap();
+
+
 
             Width = width;
             Height = height;
