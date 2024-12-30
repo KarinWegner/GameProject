@@ -40,11 +40,36 @@ namespace GameProject.Extentions
             //return result;
             return creatures.FirstOrDefault(d => d.Cell == drawable);
         }
-        public static int GetMapSizeFor(this IConfiguration config, string value)
+        //public static int GetMapSizeFor(this IConfiguration config, string value)
+        //{
+        //    var section = config.GetSection("game:mapsettings");
+
+        //    return int.TryParse(section[value], out int result) ? result : 0;
+        //}
+
+    }
+
+    public static class ConfigExtension2
+    {
+        public static IGetMapSize Implementation { private get; set; } = new GetMapSize();
+        public static int GetMapSizeFor2(this IConfiguration config, string value)
+        {
+            return Implementation.GetMapSizeFor2(config, value);
+        }
+    }
+
+    public class GetMapSize : IGetMapSize
+    {
+        public int GetMapSizeFor2(IConfiguration config, string value)
         {
             var section = config.GetSection("game:mapsettings");
 
             return int.TryParse(section[value], out int result) ? result : 0;
         }
+    }
+
+    public interface IGetMapSize
+    {
+        int GetMapSizeFor2(IConfiguration config, string value);
     }
 }

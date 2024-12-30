@@ -18,7 +18,7 @@ namespace GameProject.Services
 
         public (int width, int height) GetMap()
         {
-            return (width: config.GetMapSizeFor("x"), height: config.GetMapSizeFor("y"));
+            return (width: config.GetMapSizeFor2("x"), height: config.GetMapSizeFor2("y"));
         }
     }
 }
